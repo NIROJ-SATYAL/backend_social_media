@@ -35,8 +35,22 @@ public class PostController {
 
 
     @GetMapping("/allpost")
-  private ResponseEntity<UserReponse> getallpost() {
+  private ResponseEntity<UserReponse> getallpost()  throws  Exception{
         return new ResponseEntity<>(new UserReponse("All post", true,postService.getallpost()), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/delete/{postId}/{userId}")
+    private ResponseEntity<ApiResponse> deletePost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId) throws Exception {
+        Boolean delete = postService.deletePost(postId, userId);
+        if(delete)
+        {
+            return new ResponseEntity<>( new ApiResponse( "Post deleted", true ), HttpStatus.OK);
+        }
+        else
+        {
+            return new ResponseEntity<>( new ApiResponse( "Post not deleted", false ), HttpStatus.BAD_REQUEST);
+        }
     }
 
 

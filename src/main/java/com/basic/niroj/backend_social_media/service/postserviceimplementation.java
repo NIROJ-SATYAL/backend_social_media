@@ -42,7 +42,34 @@ private PostRepository postrepository;
     }
 
 
-    public List<Post> getallpost() {
+    public List<Post> getallpost() throws  Exception{
         return postrepository.findAll();
+    }
+
+    @Override
+    public Boolean deletePost(Long postId, Long userId) throws Exception {
+        Post post = postrepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("post", "id", postId));
+        User user = userrepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+        if(post.getUser().getId().equals(user.getId()))
+        {
+            postrepository.delete(post);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    @Override
+    public List<Post> getPostByUserId(Long userId) throws Exception {
+
+        User user = userrepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+        return postrepository.findByUser(user);
+    }
+
+    @Override
+    public Post getPostById(Long postId) throws Exception {
+        return null;
     }
 }
