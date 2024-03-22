@@ -1,6 +1,7 @@
 package com.basic.niroj.backend_social_media.controller;
 
 
+import com.basic.niroj.backend_social_media.Model.Post;
 import com.basic.niroj.backend_social_media.Model.User;
 import com.basic.niroj.backend_social_media.payload.ApiResponse;
 import com.basic.niroj.backend_social_media.payload.UserReponse;
@@ -114,6 +115,36 @@ private Userservice userservice;
        }
        else{
               return new ResponseEntity<>(new UserReponse("User not found", false, null), HttpStatus.BAD_REQUEST);
+       }
+
+    }
+
+
+    @GetMapping("/savedpost/{userid}")
+    private ResponseEntity<UserReponse> savedPost(@PathVariable Long userid) throws Exception{
+        System.out.println(userid);
+      List<Post> savedpost = userservice.savedpost(userid);
+
+       if(savedpost!=null){
+           return new ResponseEntity<>(new UserReponse("saved post found", true, savedpost), HttpStatus.OK);
+       }
+       else{
+              return new ResponseEntity<>(new UserReponse("you cannot save any post", false, null), HttpStatus.BAD_REQUEST);
+       }
+
+    }
+
+
+    @GetMapping("/getallpost/{userid}")
+    private ResponseEntity<UserReponse> getAllPost(@PathVariable Long userid) throws Exception{
+        System.out.println(userid);
+      List<Post> savedpost = userservice.Allpost(userid);
+
+       if(savedpost!=null){
+           return new ResponseEntity<>(new UserReponse("saved post found", true, savedpost), HttpStatus.OK);
+       }
+       else{
+              return new ResponseEntity<>(new UserReponse("you cannot save any post", false, null), HttpStatus.BAD_REQUEST);
        }
 
     }

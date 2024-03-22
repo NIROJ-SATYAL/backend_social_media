@@ -1,6 +1,7 @@
 package com.basic.niroj.backend_social_media.service;
 
 import com.basic.niroj.backend_social_media.Exception.ResourceNotFoundException;
+import com.basic.niroj.backend_social_media.Model.Post;
 import com.basic.niroj.backend_social_media.Model.User;
 import com.basic.niroj.backend_social_media.Repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +80,18 @@ public class Userserviceimplementation implements  Userservice{
     public List<User> seraechuser(String query) throws Exception {
         List<User> user = userrepository.searchUser(query);
         return user;
+    }
+
+    @Override
+    public List<Post> savedpost(Long userid) {
+
+        User user = userrepository.findById(userid).orElseThrow(()-> new ResourceNotFoundException("user", "id", userid));
+        return user.getSavedpost();
+    }
+
+    @Override
+    public List<Post> Allpost(Long userid) {
+       User user = userrepository.findById(userid).orElseThrow(()-> new ResourceNotFoundException("user", "id", userid));
+        return user.getPosts();
     }
 }

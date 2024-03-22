@@ -36,6 +36,7 @@ public class Post {
 
     @ManyToOne()
 
+
     private User user;
 
     private LocalDateTime createdat;

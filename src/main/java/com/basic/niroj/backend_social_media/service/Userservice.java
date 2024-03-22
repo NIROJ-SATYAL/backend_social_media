@@ -1,5 +1,6 @@
 package com.basic.niroj.backend_social_media.service;
 
+import com.basic.niroj.backend_social_media.Model.Post;
 import com.basic.niroj.backend_social_media.Model.User;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface Userservice {
 
     public List<User> seraechuser(String query) throws Exception;
 
+    List<Post> savedpost(Long userid);
+
+    List<Post> Allpost(Long userid);
 }

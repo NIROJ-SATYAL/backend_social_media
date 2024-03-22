@@ -42,6 +42,7 @@ public class User {
 
 
     @ManyToMany
+    @JsonIgnore
     private List<Post> savedpost= new ArrayList<>();
 
 }
