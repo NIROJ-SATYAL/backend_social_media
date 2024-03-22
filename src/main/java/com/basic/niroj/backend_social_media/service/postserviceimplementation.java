@@ -19,6 +19,8 @@ public class postserviceimplementation  implements  postservice{
 private PostRepository postrepository;
 
 
+
+
     @Autowired
     private userRepository userrepository;
     @Override
@@ -70,6 +72,46 @@ private PostRepository postrepository;
 
     @Override
     public Post getPostById(Long postId) throws Exception {
-        return null;
+
+        return postrepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("post", "id", postId));
+    }
+
+    @Override
+    public Post savedpost(Long postId, Long userId) throws Exception {
+
+
+        Post post= postrepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("post", "id", postId));
+        User user = userrepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+        if(user.getSavedpost().contains(post))
+        {
+            user.getSavedpost().remove(post);
+        }
+        else
+        {
+            user.getSavedpost().add(post);
+        }
+       userrepository.save(user);
+
+        return post;
+
+
+
+
+    }
+
+    @Override
+    public Post LikedPost(Long postId, Long userId) throws Exception {
+
+        Post post= postrepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("post", "id", postId));
+        User user = userrepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("user", "id", userId));
+        if(post.getLikes().contains(user))
+        {
+            post.getLikes().remove(user);
+        }
+        else
+        {
+            post.getLikes().add(user);
+        }
+        return postrepository.save(post);
     }
 }

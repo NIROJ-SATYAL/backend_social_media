@@ -40,4 +40,8 @@ public class User {
    @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
+
+    @ManyToMany
+    private List<Post> savedpost= new ArrayList<>();
+
 }

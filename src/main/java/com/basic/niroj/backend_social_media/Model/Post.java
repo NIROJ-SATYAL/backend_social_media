@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,6 +28,10 @@ public class Post {
     private String description;
     private String image;
     private String video;
+
+
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<User> likes = new ArrayList<>();
 
 
     @ManyToOne()

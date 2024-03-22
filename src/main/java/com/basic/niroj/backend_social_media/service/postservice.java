@@ -20,7 +20,10 @@ public interface postservice {
 
     public Post getPostById(Long postId) throws Exception;
 
+    public Post savedpost (Long postId, Long userId) throws Exception;
 
+
+    public Post LikedPost(Long postId, Long userId) throws Exception;
 
 
 

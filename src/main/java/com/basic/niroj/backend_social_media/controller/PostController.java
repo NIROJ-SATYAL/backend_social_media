@@ -54,6 +54,57 @@ public class PostController {
     }
 
 
+    @GetMapping("/getpostbyuserid/{userId}")
+
+    private ResponseEntity<UserReponse> getPostByUserId(@PathVariable("userId") Long userId) throws Exception {
+        return new ResponseEntity<>(new UserReponse("Post by user id", true, postService.getPostByUserId(userId)), HttpStatus.OK);
+    }
+
+
+
+    @GetMapping("/getpostbyid/{postId}")
+
+    private ResponseEntity<UserReponse> getPostById(@PathVariable("postId") Long postId) throws Exception {
+        return new ResponseEntity<>(new UserReponse("Post by id", true, postService.getPostById(postId)), HttpStatus.OK);
+    }
+
+
+
+
+    @PutMapping("/savedpost/{postId}/{userId}")
+
+    private ResponseEntity<ApiResponse> savedpost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId) throws Exception {
+        Post post = postService.savedpost(postId, userId);
+        if(post==null)
+        {
+            return new ResponseEntity<>( new ApiResponse( "Post not saved", false ), HttpStatus.BAD_REQUEST);
+        }
+        else
+        {
+            return new ResponseEntity<>( new ApiResponse( "Post saved", true ), HttpStatus.OK);
+        }
+    }
+
+
+    @PutMapping("/likedpost/{postId}/{userId}")
+
+    private ResponseEntity<ApiResponse>
+    LikedPost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId) throws Exception {
+        Post post = postService.LikedPost(postId, userId);
+        if(post==null)
+        {
+            return new ResponseEntity<>( new ApiResponse( "Post not liked", false ), HttpStatus.BAD_REQUEST);
+        }
+        else
+        {
+            return new ResponseEntity<>( new ApiResponse( "Post liked", true ), HttpStatus.OK);
+        }
+    }
+
+
+
+
+
 
 
 
