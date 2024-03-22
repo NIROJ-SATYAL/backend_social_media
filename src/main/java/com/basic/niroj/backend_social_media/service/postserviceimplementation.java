@@ -9,6 +9,8 @@ import com.basic.niroj.backend_social_media.Repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class postserviceimplementation  implements  postservice{
 
@@ -37,5 +39,10 @@ private PostRepository postrepository;
             Post savepost = postrepository.save(post);
             return savepost;
      }
+    }
+
+
+    public List<Post> getallpost() {
+        return postrepository.findAll();
     }
 }

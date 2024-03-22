@@ -34,6 +34,15 @@ public class PostController {
     }
 
 
+    @GetMapping("/allpost")
+  private ResponseEntity<UserReponse> getallpost() {
+        return new ResponseEntity<>(new UserReponse("All post", true,postService.getallpost()), HttpStatus.OK);
+    }
+
+
+
+
+
 
 
 
