@@ -2,7 +2,6 @@ package com.basic.niroj.backend_social_media.controller;
 
 
 import com.basic.niroj.backend_social_media.Model.User;
-import com.basic.niroj.backend_social_media.Repository.userRepository;
 import com.basic.niroj.backend_social_media.payload.ApiResponse;
 import com.basic.niroj.backend_social_media.payload.UserReponse;
 import com.basic.niroj.backend_social_media.service.Userservice;
@@ -12,11 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
-public class HomeController {
+public class userController {
 
 
 @Autowired
@@ -92,6 +90,8 @@ private Userservice userservice;
 
     @PutMapping("/followuser/{id}/{id2}")
     private ResponseEntity<UserReponse> followUser(@PathVariable Long id, @PathVariable Long id2) throws Exception{
+        System.out.println(id);
+        System.out.println(id2);
        User user = userservice.followuser(id, id2);
 
        if(user!=null){

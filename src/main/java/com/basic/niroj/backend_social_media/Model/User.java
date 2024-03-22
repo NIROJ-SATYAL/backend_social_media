@@ -1,12 +1,10 @@
 package com.basic.niroj.backend_social_media.Model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,7 +26,14 @@ public class User {
     private String email;
     private String gender;
 
-    private List<Long> followers;
-    private List<Long> following;
+    @ElementCollection
+    private List<Long> followers = new ArrayList<>();
+
+    @ElementCollection
+    private List<Long> following = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Post> posts = new ArrayList<>();
 
 }
