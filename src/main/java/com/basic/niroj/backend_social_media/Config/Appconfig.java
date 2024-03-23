@@ -1,10 +1,12 @@
 package com.basic.niroj.backend_social_media.Config;
 
 
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,23 +21,24 @@ import org.springframework.stereotype.Component;
 @Configuration
 @EnableWebSecurity
 @Component
-public class Appconfig {
-
-    @Autowired
- private  JwtAuthenticationEntryPoint point;
+public class Appconfig  {
 
 
-    @Bean
+
+
+@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable()) // Disable CSRF protection (optional)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Disable session management for a stateless API
-                .csrf(csrf -> csrf.disable())
-                .httpBasic(httoBasic->httoBasic.disable())
-                .authorizeHttpRequests(auth -> auth  // Configure authorization rules
+
+                .authorizeHttpRequests(auth -> auth// Configure authorization rules
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("/auth/**").permitAll() // Allow unauthenticated access to authentication endpoints
                         .requestMatchers("/api/**").authenticated() // Require authentication for API endpoints
-                        .anyRequest().permitAll()) // Allow other requests (optional, adjust as needed)
-                 .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
+                        .anyRequest().permitAll())// Allow other requests (optional, adjust as needed)
+
+                .httpBasic(httpBasic -> httpBasic.disable())
                 .addFilterBefore(new JwtAuthenticationFilter(), BasicAuthenticationFilter.class); // Add JWT filter before BasicAuthenticationFilter
 
         return http.build();
