@@ -1,5 +1,6 @@
 package com.basic.niroj.backend_social_media.service;
 
+import com.basic.niroj.backend_social_media.Config.JwtProvider;
 import com.basic.niroj.backend_social_media.Exception.ResourceNotFoundException;
 import com.basic.niroj.backend_social_media.Model.Post;
 import com.basic.niroj.backend_social_media.Model.User;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -34,14 +34,18 @@ public class Userserviceimplementation implements  Userservice{
     }
 
     @Override
-    public User finduserbyemail(String email) throws Exception {
+    public User finduserbyemail(String token) throws Exception {
+
+        System.out.println("jwt---- " + token);
+        String email= JwtProvider.getEmailFromToken(token);
         User user = userrepository.findByEmail(email);
         return user;
     }
 
     @Override
-    public User followuser(Long id, Long id2) throws Exception {
-        User user1=finduserbyid(id);
+    public User followuser(String token, Long id2) throws Exception {
+        User user1=finduserbyemail(token);
+        Long id=user1.getId();
         User user2=finduserbyid(id2);
 
         user1.getFollowing().add(id2);
@@ -56,8 +60,8 @@ public class Userserviceimplementation implements  Userservice{
     }
 
     @Override
-    public User updateuser( User user, Long id) throws Exception {
-        User user2 =finduserbyid(id);
+    public User updateuser(User user, String token) throws Exception {
+        User user2=finduserbyemail(token);
 
 
             if(user.getFirstName()!=null && user.getFirstName()!="" ){

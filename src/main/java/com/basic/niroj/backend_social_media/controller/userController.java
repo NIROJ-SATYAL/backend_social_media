@@ -57,13 +57,13 @@ private Userservice userservice;
     }
 
 
-    @PutMapping("/updateuser/{id}")
+    @PutMapping("/updateuser")
 
 
-    private ResponseEntity<ApiResponse> updateUser(@PathVariable Long id, @RequestBody User user){
+    private ResponseEntity<ApiResponse> updateUser(@RequestHeader("Authorization") String token, @RequestBody User user){
 
         try{
-            userservice.updateuser(user, id);
+            userservice.updateuser(user, token);
             return new ResponseEntity<>(new ApiResponse("User updated", true), HttpStatus.OK);
         }
         catch(Exception e){
@@ -90,11 +90,11 @@ private Userservice userservice;
     }
 
 
-    @PutMapping("/followuser/{id}/{id2}")
-    private ResponseEntity<UserReponse> followUser(@PathVariable Long id, @PathVariable Long id2) throws Exception{
-        System.out.println(id);
+    @PutMapping("/followuser/{id2}")
+    private ResponseEntity<UserReponse> followUser(@RequestHeader("Authorization") String token, @PathVariable Long id2) throws Exception{
+
         System.out.println(id2);
-       User user = userservice.followuser(id, id2);
+       User user = userservice.followuser(token, id2);
 
        if(user!=null){
            return new ResponseEntity<>(new UserReponse("User found", true, user), HttpStatus.OK);
@@ -154,10 +154,9 @@ private Userservice userservice;
     @GetMapping("/users/profile")
 
     private  ResponseEntity<UserReponse> getProfile(@RequestHeader("Authorization") String token) throws Exception {
-        System.out.println("jwt---- " + token);
-        String email= JwtProvider.getEmailFromToken(token);
 
-        User user = userservice.finduserbyemail(email);
+
+        User user = userservice.finduserbyemail(token);
 
 
 

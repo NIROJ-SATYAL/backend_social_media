@@ -15,9 +15,9 @@ public interface Userservice {
     public User finduserbyid(Long id) throws Exception;
 
     public User finduserbyemail(String email) throws Exception;
-    public User followuser(Long id, Long id2) throws Exception;
+    public User followuser(String id, Long id2) throws Exception;
 
-    public User updateuser(  User user, Long id) throws Exception;
+    public User updateuser(User user, String id) throws Exception;
 
 
     public List<User> seraechuser(String query) throws Exception;
