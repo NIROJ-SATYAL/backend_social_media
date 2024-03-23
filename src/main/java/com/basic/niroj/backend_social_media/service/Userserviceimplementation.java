@@ -23,9 +23,6 @@ public class Userserviceimplementation implements  Userservice{
     @Override
     public User registeruser(User user) {
 
-
-
-
         User saveuser= userrepository.save(user);
         return saveuser;
     }
@@ -38,7 +35,7 @@ public class Userserviceimplementation implements  Userservice{
 
     @Override
     public User finduserbyemail(String email) throws Exception {
-        User user = userrepository.findById(Long.parseLong(email)).orElseThrow(()-> new ResourceNotFoundException("user", "email", email));
+        User user = userrepository.findByEmail(email);
         return user;
     }
 

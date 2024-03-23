@@ -1,6 +1,7 @@
 package com.basic.niroj.backend_social_media.controller;
 
 
+import com.basic.niroj.backend_social_media.Config.JwtProvider;
 import com.basic.niroj.backend_social_media.Model.Post;
 import com.basic.niroj.backend_social_media.Model.User;
 import com.basic.niroj.backend_social_media.payload.ApiResponse;
@@ -147,6 +148,20 @@ private Userservice userservice;
               return new ResponseEntity<>(new UserReponse("you cannot save any post", false, null), HttpStatus.BAD_REQUEST);
        }
 
+    }
+
+
+    @GetMapping("/users/profile")
+
+    private  ResponseEntity<UserReponse> getProfile(@RequestHeader("Authorization") String token) throws Exception {
+        System.out.println("jwt---- " + token);
+        String email= JwtProvider.getEmailFromToken(token);
+
+        User user = userservice.finduserbyemail(email);
+
+
+
+        return new ResponseEntity<>(new UserReponse("User found", true, user), HttpStatus.OK);
     }
 
 

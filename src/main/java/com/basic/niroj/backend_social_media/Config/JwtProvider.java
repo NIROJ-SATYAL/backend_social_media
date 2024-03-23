@@ -37,7 +37,7 @@ public  static SecretKey  key= Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getByte
  Claims claims=Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(email).getBody();
 
 
-//return claims.get("email").toString();
-return String.valueOf(claims.get("email"));
+return claims.get("email").toString();
+//return String.valueOf(claims.get("email"));
  }
 }

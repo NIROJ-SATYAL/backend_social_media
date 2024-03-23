@@ -3,11 +3,14 @@ package com.basic.niroj.backend_social_media.controller;
 import com.basic.niroj.backend_social_media.Config.JwtProvider;
 import com.basic.niroj.backend_social_media.Model.User;
 import com.basic.niroj.backend_social_media.Repository.userRepository;
+import com.basic.niroj.backend_social_media.payload.ApiResponse;
 import com.basic.niroj.backend_social_media.payload.AuthResponse;
 import com.basic.niroj.backend_social_media.request.LoginRequest;
 import com.basic.niroj.backend_social_media.service.Userservice;
 import com.basic.niroj.backend_social_media.service.CustomUserDetailsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -43,33 +46,27 @@ private CustomUserDetailsService customUserDetailsService;
 
     @PostMapping("/register")
 
-    public String addUser(@RequestBody User user){
-
-
-
-
-
+    public ResponseEntity<ApiResponse> addUser(@RequestBody User user){
         User users= userrepository.findByEmail(user.getEmail());
-
-
         if(users!=null){
-            return "User already exists";
+           return new ResponseEntity<>(new ApiResponse("User already exist", false), org.springframework.http.HttpStatus.BAD_REQUEST);
         }
+        User user1=new User();
 
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-
-        User saveduser= userservice.registeruser(user);
+        user1.setEmail(user.getEmail());
+        user1.setPassword(passwordEncoder.encode(user.getPassword()));
+        user1.setFirstName(user.getFirstName());
+        user1.setLastName(user.getLastName());
+        user1.setGender(user.getGender());
+        User saveduser= userservice.registeruser(user1);
         System.out.println(saveduser);
+        System.out.println(saveduser.getPassword());
+        return new ResponseEntity<>(new ApiResponse("User registered successfully", true), org.springframework.http.HttpStatus.CREATED);
 
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken( saveduser.getEmail(),saveduser.getPassword());
-        String token= JwtProvider.GenerateToken(authentication);
 
-        System.out.println(token);
 
-            return token;
+
 
 
 
