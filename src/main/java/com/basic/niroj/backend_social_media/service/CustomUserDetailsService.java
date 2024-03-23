@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @Service
-public class ustomUserDetailsService  implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
 
 
@@ -22,6 +22,7 @@ public class ustomUserDetailsService  implements UserDetailsService {
     private userRepository userrepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("username"+ username);
 
        User user=userrepository.findByEmail(username);
 
