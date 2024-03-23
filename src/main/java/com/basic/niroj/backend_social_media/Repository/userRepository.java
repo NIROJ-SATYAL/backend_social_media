@@ -12,7 +12,10 @@ import java.util.List;
 @Repository
 public interface userRepository extends JpaRepository<User, Long>{
 
+
+    @Query("SELECT u FROM User u WHERE u.email = :email")
     public User findByEmail(String email);
+
 
 
     @Query("SELECT u FROM User u WHERE u.firstName LIKE %:query% OR u.lastName LIKE %:query% OR u.email LIKE %:query%" )

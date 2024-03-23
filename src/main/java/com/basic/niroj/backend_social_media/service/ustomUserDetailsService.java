@@ -28,7 +28,7 @@ public class ustomUserDetailsService  implements UserDetailsService {
                if(user==null){
                    throw new UsernameNotFoundException("User not found");
                }
-           List<GrantedAuthority> authorities= AuthorityUtils.createAuthorityList("ROLE_USER");
+           List<GrantedAuthority> authorities= AuthorityUtils.createAuthorityList();
 
 
                 return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);

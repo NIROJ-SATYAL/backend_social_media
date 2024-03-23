@@ -23,22 +23,22 @@ private Userservice userservice;
 
 
 
-    @PostMapping("/adduser")
-
-    public ResponseEntity<ApiResponse> addUser(@RequestBody User user){
-
-
-
-       User saveduser= userservice.registeruser(user);
-
-       if(saveduser!=null){
-           return new ResponseEntity<>(new ApiResponse("User added", true), HttpStatus.OK);
-       }
-       else{
-           return new ResponseEntity<>(new ApiResponse("User not added", false), HttpStatus.BAD_REQUEST);
-       }
-
-    }
+//    @PostMapping("/adduser")
+//
+//    public ResponseEntity<ApiResponse> addUser(@RequestBody User user){
+//
+//
+//
+//       User saveduser= userservice.registeruser(user);
+//
+//       if(saveduser!=null){
+//           return new ResponseEntity<>(new ApiResponse("User added", true), HttpStatus.OK);
+//       }
+//       else{
+//           return new ResponseEntity<>(new ApiResponse("User not added", false), HttpStatus.BAD_REQUEST);
+//       }
+//
+//    }
 
 
     @GetMapping("/getuser/{id}")

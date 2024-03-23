@@ -5,6 +5,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.Authentication;
 
+import io.jsonwebtoken.security.Keys;
+import javax.crypto.SecretKey;
+
+// Generate a secure key for HMAC-SHA algorithm with a size of 256 bits
+
+
 import javax.crypto.SecretKey;
 import java.util.Date;
 
@@ -18,6 +24,7 @@ public  static SecretKey  key= Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getByte
  public  static String GenerateToken(Authentication auth)
  {
      String jwt= Jwts.builder().setIssuer("niroj").setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis()+600000)).claim("email",auth.getName()).signWith(key).compact();
+     System.out.println("Token generated" + jwt);
      return jwt;
  }
 
@@ -30,7 +37,7 @@ public  static SecretKey  key= Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getByte
  Claims claims=Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(email).getBody();
 
 
-return claims.get("email").toString();
-//return String.valueOf(claims.get("email")
+//return claims.get("email").toString();
+return String.valueOf(claims.get("email"));
  }
 }

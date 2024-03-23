@@ -4,5 +4,5 @@ public class JwtConstant {
 
 
     public static  final String Jwt_Header="Authorization";
-    public static final String SECRET_KEY="nirojsatyal12345";
+    public static final String SECRET_KEY="nirojsatyal1234jkndckjncdkjncdkjnkjndnjkjvnvjndknjnjd5";
 }

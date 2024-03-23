@@ -24,12 +24,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwttoken = request.getHeader(JwtConstant.Jwt_Header);
 
+        System.out.println(jwttoken);
 
-        if (jwttoken == null || !jwttoken.startsWith("Bearer")) {
+        if (jwttoken != null) {
 
 
             try {
+
                 String email = JwtProvider.getEmailFromToken(jwttoken);
+                System.out.println(email);
+
 
                 List<GrantedAuthority> authorities = new ArrayList<>();
                 Authentication auth = new UsernamePasswordAuthenticationToken(email, null, authorities);
@@ -41,10 +45,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
 
+
         }
-        else {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "please provide valid token");
-        }
+
+
         filterChain.doFilter(request, response);
     }
 }
