@@ -23,14 +23,18 @@ private PostRepository postrepository;
 
     @Autowired
     private userRepository userrepository;
+
+
+    @Autowired
+    private Userservice userservice;
     @Override
-    public Post CreatePost(Post post, Long id) throws Exception {
-     User user =  userrepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("user", "id", id));
+    public Post CreatePost(Post post, String token) throws Exception {
+     User user= userservice.finduserbyemail(token);
 
 
      if(user==null)
      {
-            throw new ResourceNotFoundException("user", "id", id);
+            throw new ResourceNotFoundException("user", "id", user.getId());
         }
         else
         {

@@ -18,9 +18,9 @@ public class PostController {
     private postservice postService;
 
 
-    @PostMapping("/create/{userId}")
-    private ResponseEntity<ApiResponse> createPost(@RequestBody Post post, @PathVariable("userId") Long userId) throws Exception {
-        Post savepost= postService.CreatePost( post, userId);
+    @PostMapping("/create")
+    private ResponseEntity<ApiResponse> createPost(@RequestBody Post post, @RequestHeader("Authorization") String token) throws Exception {
+        Post savepost= postService.CreatePost( post, token);
 
 
         if(savepost==null)

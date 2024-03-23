@@ -7,7 +7,7 @@ import java.util.List;
 public interface postservice {
 
 
-    Post CreatePost(Post post,Long id) throws Exception;
+    Post CreatePost(Post post, String token) throws Exception;
 
 
     public List<Post> getallpost() throws  Exception;
