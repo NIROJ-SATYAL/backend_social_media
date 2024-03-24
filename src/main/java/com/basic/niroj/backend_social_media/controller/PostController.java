@@ -2,8 +2,10 @@ package com.basic.niroj.backend_social_media.controller;
 
 
 import com.basic.niroj.backend_social_media.Model.Post;
+import com.basic.niroj.backend_social_media.Model.User;
 import com.basic.niroj.backend_social_media.payload.ApiResponse;
 import com.basic.niroj.backend_social_media.payload.UserReponse;
+import com.basic.niroj.backend_social_media.service.Userservice;
 import com.basic.niroj.backend_social_media.service.postservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,10 @@ public class PostController {
 
     @Autowired
     private postservice postService;
+
+
+    @Autowired
+    private Userservice userservice;
 
 
     @PostMapping("/create")
@@ -40,9 +46,10 @@ public class PostController {
     }
 
 
-    @DeleteMapping("/delete/{postId}/{userId}")
-    private ResponseEntity<ApiResponse> deletePost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId) throws Exception {
-        Boolean delete = postService.deletePost(postId, userId);
+    @DeleteMapping("/delete/{postId}")
+    private ResponseEntity<ApiResponse> deletePost(@PathVariable("postId") Long postId, @RequestHeader("Authorization") String token) throws Exception {
+        User user = userservice.finduserbyemail(token);
+        Boolean delete = postService.deletePost(postId, user.getId());
         if(delete)
         {
             return new ResponseEntity<>( new ApiResponse( "Post deleted", true ), HttpStatus.OK);
@@ -71,10 +78,11 @@ public class PostController {
 
 
 
-    @PutMapping("/savedpost/{postId}/{userId}")
+    @PutMapping("/savedpost/{postId}")
 
-    private ResponseEntity<ApiResponse> savedpost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId) throws Exception {
-        Post post = postService.savedpost(postId, userId);
+    private ResponseEntity<ApiResponse> savedpost(@PathVariable("postId") Long postId, @RequestHeader("Authorization") String token) throws Exception {
+        User user = userservice.finduserbyemail(token);
+        Post post = postService.savedpost(postId, user.getId());
         if(post==null)
         {
             return new ResponseEntity<>( new ApiResponse( "Post not saved", false ), HttpStatus.BAD_REQUEST);
@@ -86,11 +94,12 @@ public class PostController {
     }
 
 
-    @PutMapping("/likedpost/{postId}/{userId}")
+    @PutMapping("/likedpost/{postId}")
 
     private ResponseEntity<ApiResponse>
-    LikedPost(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId) throws Exception {
-        Post post = postService.LikedPost(postId, userId);
+    LikedPost(@PathVariable("postId") Long postId, @RequestHeader("Authorization") String token) throws Exception {
+        User user = userservice.finduserbyemail(token);
+        Post post = postService.LikedPost(postId, user.getId());
         if(post==null)
         {
             return new ResponseEntity<>( new ApiResponse( "Post not liked", false ), HttpStatus.BAD_REQUEST);
