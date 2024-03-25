@@ -40,4 +40,19 @@ public class ReelsController
 
     }
 
+
+    @GetMapping("/getallreels")
+
+    public ResponseEntity<UserReponse> getAllReels()
+    {
+        try
+        {
+            return ResponseEntity.ok(new UserReponse("All reels",true,reelsService.getAllReels()));
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body(new UserReponse(e.getMessage(),false,null));
+        }
+    }
+
 }

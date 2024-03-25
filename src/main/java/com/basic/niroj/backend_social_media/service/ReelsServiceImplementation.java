@@ -60,7 +60,8 @@ public class ReelsServiceImplementation implements  ReelsService {
 
     @Override
     public List<Reels> getAllReels() throws Exception {
-        return null;
+
+        return reelsRepository.findAll();
     }
 
     @Override
