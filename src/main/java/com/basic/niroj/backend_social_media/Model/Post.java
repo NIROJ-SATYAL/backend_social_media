@@ -34,9 +34,12 @@ public class Post {
     private List<User> likes = new ArrayList<>();
 
 
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
     @ManyToOne()
-
-
     private User user;
 
     private LocalDateTime createdat;
