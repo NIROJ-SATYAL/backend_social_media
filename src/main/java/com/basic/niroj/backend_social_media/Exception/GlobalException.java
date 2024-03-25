@@ -48,4 +48,10 @@ public class GlobalException {
         return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.BAD_REQUEST);
     }
 
+
+    @ExceptionHandler(ResponseException.class)
+    public ResponseEntity<ApiResponse> responseException(ResponseException e){
+        return new ResponseEntity<>(new ApiResponse(e.getMessage(), false), HttpStatus.BAD_REQUEST);
+    }
+
 }
