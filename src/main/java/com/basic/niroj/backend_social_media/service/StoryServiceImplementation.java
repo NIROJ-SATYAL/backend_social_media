@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StoryServiceImplementation implements  StoryService{
@@ -59,22 +60,20 @@ public class StoryServiceImplementation implements  StoryService{
     @Override
     public Boolean deleteStory(Long storyid, Long userid) throws Exception {
 
-try
+
+        Story story = storyRepository.findById(storyid).orElseThrow(()->new ResourceNotFoundException("Story not found","id",storyid));
+
+
+        if(story.getUser().getId()==userid)
         {
-            Story story = storyRepository.findById(storyid).get();
-            if(story.getUser().getId()==userid)
-            {
-                storyRepository.deleteById(storyid);
-                return true;
-            }
-            else {
-                return false;
-            }
+            storyRepository.deleteById(storyid);
+            return true;
         }
-        catch (Exception e)
-        {
-            throw new ResourceNotFoundException("Story not found","id",storyid);
+        else {
+            throw new ResourceNotFoundException("Invalid Access","id",userid);
         }
+
+
     }
 
     @Override

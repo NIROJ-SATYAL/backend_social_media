@@ -9,4 +9,6 @@ import java.util.List;
 public interface StoryRepository extends JpaRepository<Story, Long> {
 
     public List<Story> findByUser(User user);
+
+
 }
