@@ -45,4 +45,9 @@ public class User {
     @JsonIgnore
     private List<Post> savedpost= new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Reels> reels = new ArrayList<>();
+
 }
