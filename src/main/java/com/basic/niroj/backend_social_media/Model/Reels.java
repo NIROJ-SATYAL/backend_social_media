@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +24,9 @@ public class Reels {
     private String video;
     @ManyToOne
     private User user;
+
+    @ManyToMany
+    private List<User> likes = new ArrayList<>();
 
     private LocalDateTime createdAt;
 

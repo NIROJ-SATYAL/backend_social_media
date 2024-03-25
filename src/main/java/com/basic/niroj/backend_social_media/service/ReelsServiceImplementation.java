@@ -29,15 +29,18 @@ public class ReelsServiceImplementation implements  ReelsService {
 
        User user = userservice.finduserbyid(userid);
 
-        if(user==null)
+        if(user.getId()==userid)
         {
-            throw new ResourceNotFoundException("User not found","id",userid);
+
+
+            reels.setUser(user);
+            reels.setCreatedAt(LocalDateTime.now());
+
+            return reelsRepository.save(reels);
+
         }
+        throw new ResourceNotFoundException("User not found","id",userid);
 
-        reels.setUser(user);
-        reels.setCreatedAt(LocalDateTime.now());
-
-        return reelsRepository.save(reels);
 
 
 
@@ -45,17 +48,42 @@ public class ReelsServiceImplementation implements  ReelsService {
 
     @Override
     public Reels getReelsById(Long reelsid) throws Exception {
-        return null;
+
+        try
+        {
+            return reelsRepository.findById(reelsid).get();
+        }
+        catch (Exception e)
+        {
+            throw new ResourceNotFoundException("Reels not found","id",reelsid);
+        }
     }
 
     @Override
     public Boolean deleteReels(Long reelsid, Long userid) throws Exception {
-        return null;
+
+        Reels reels= reelsRepository.findById(reelsid).orElseThrow(()->new ResourceNotFoundException("Reels not found","id",reelsid));
+
+        if(reels.getUser().getId()==userid)
+        {
+            reelsRepository.delete(reels);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public List<Reels> getReelsByUser(Long userid) throws Exception {
-        return null;
+
+        User user= userservice.finduserbyid(userid);
+
+        if(user==null)
+        {
+            throw new ResourceNotFoundException("User not found","id",userid);
+        }
+
+        return reelsRepository.findByUser(user);
+
     }
 
     @Override
@@ -66,6 +94,19 @@ public class ReelsServiceImplementation implements  ReelsService {
 
     @Override
     public Reels likeReels(Long reelsid, Long userid) throws Exception {
-        return null;
+
+        Reels reels= reelsRepository.findById(reelsid).orElseThrow(()->new ResourceNotFoundException("Reels not found","id",reelsid));
+
+        User user= userservice.finduserbyid(userid);
+
+        if(reels.getLikes().contains(user))
+        {
+            reels.getLikes().remove(user);
+        }
+        else{
+            reels.getLikes().add(user);
+        }
+
+        return reelsRepository.save(reels);
     }
 }
