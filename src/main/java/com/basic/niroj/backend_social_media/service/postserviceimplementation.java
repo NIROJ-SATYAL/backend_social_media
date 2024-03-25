@@ -2,8 +2,10 @@ package com.basic.niroj.backend_social_media.service;
 
 
 import com.basic.niroj.backend_social_media.Exception.ResourceNotFoundException;
+import com.basic.niroj.backend_social_media.Model.Comment;
 import com.basic.niroj.backend_social_media.Model.Post;
 import com.basic.niroj.backend_social_media.Model.User;
+import com.basic.niroj.backend_social_media.Repository.CommentRepository;
 import com.basic.niroj.backend_social_media.Repository.PostRepository;
 import com.basic.niroj.backend_social_media.Repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ private PostRepository postrepository;
 
     @Autowired
     private userRepository userrepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
 
     @Autowired
@@ -117,5 +122,14 @@ private PostRepository postrepository;
             post.getLikes().add(user);
         }
         return postrepository.save(post);
+    }
+
+    @Override
+    public List<Comment> getallcomment(Long postId) {
+
+        Post post= postrepository.findById(postId).orElseThrow(()-> new ResourceNotFoundException("post", "id", postId));
+
+        return  commentRepository.findByPost(post);
+
     }
 }

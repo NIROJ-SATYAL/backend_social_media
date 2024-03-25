@@ -7,7 +7,12 @@ public interface Commentservice {
 
     public Comment saveComment(Comment comment, Long postid,Long userid) throws Exception;
 
-    public Comment likeComment(Long commentid, Long userid);
+    public Comment likeComment(Long commentid, Long userid) throws Exception;
+
+
+    public Comment getCommentById(Long commentid) throws Exception;
+
+    public Boolean deleteComment(Long commentid, Long userid) throws Exception;
 
 
 }

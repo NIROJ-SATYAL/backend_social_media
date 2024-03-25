@@ -111,6 +111,11 @@ public class PostController {
     }
 
 
+        @GetMapping("/getallcomment/{postId}")
+
+        private ResponseEntity<UserReponse> getallcomment(@PathVariable("postId") Long postId) throws Exception {
+            return new ResponseEntity<>(new UserReponse("All comment", true, postService.getallcomment(postId)), HttpStatus.OK);
+        }
 
 
 

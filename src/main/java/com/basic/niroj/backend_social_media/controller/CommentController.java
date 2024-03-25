@@ -36,4 +36,44 @@ public class CommentController {
             return ResponseEntity.badRequest().body(new UserReponse(e.getMessage(), false, null));
         }
     }
+
+    @PutMapping("/likecomment/{commentId}")
+    private ResponseEntity<UserReponse> likeComment(@RequestHeader("Authorization") String token, @PathVariable("commentId") Long commentId) {
+        try {
+            User user = users.finduserbyemail(token);
+            Comment likecomment = commentservice.likeComment(commentId, user.getId());
+            return ResponseEntity.ok(new UserReponse("Comment liked", true, likecomment));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new UserReponse(e.getMessage(), false, null));
+        }
+
+
+    }
+
+
+
+    @DeleteMapping("/deletecomment/{commentId}")
+    private ResponseEntity<UserReponse> deleteComment(@RequestHeader("Authorization") String token, @PathVariable("commentId") Long commentId) {
+        try {
+            User user = users.finduserbyemail(token);
+            Boolean delete = commentservice.deleteComment(commentId, user.getId());
+            if (delete) {
+                return ResponseEntity.ok(new UserReponse("Comment deleted", true, null));
+            } else {
+                return ResponseEntity.badRequest().body(new UserReponse("Comment not deleted", false, null));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new UserReponse(e.getMessage(), false, null));
+        }
+    }
+
+    @GetMapping("/getcommentbyid/{commentId}")
+    private ResponseEntity<UserReponse> getCommentById(@PathVariable("commentId") Long commentId) {
+        try {
+            Comment comment = commentservice.getCommentById(commentId);
+            return ResponseEntity.ok(new UserReponse("Comment by id", true, comment));
+        } catch (Exception e) {
+            return new ResponseEntity<>(new UserReponse("comment not found", false, null), org.springframework.http.HttpStatus.BAD_REQUEST);
+        }
+    }
 }

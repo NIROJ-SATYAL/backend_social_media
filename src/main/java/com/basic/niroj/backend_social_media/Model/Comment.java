@@ -1,6 +1,7 @@
 package com.basic.niroj.backend_social_media.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,7 @@ public class Comment {
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     private Post post;
 
     @ManyToMany
