@@ -22,6 +22,9 @@ public class ChatServiceImplementation implements  ChatService{
     @Override
     public Chat createChat( Long userid,Long requser) throws Exception {
 
+        User user = userservice.finduserbyid(userid);
+        User requ = userservice.finduserbyid(requser);
+
         Chat isExist = chatRepository.findByUsersAndUsers(userservice.finduserbyid(userid), userservice.finduserbyid(requser));
 
         if (isExist != null) {
@@ -30,6 +33,7 @@ public class ChatServiceImplementation implements  ChatService{
             Chat chat = new Chat();
             chat.getUsers().add(userservice.finduserbyid(userid));
             chat.getUsers().add(userservice.finduserbyid(requser));
+            chat.setChat_image(user.getFirstName());
             chat.setTimestamp(LocalDateTime.now());
             return chatRepository.save(chat);
 

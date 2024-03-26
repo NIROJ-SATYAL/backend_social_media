@@ -16,7 +16,6 @@ public interface ChatService {
 
     public List<Chat> getChatByUser(Long userid) throws Exception;
 
-    public List<Chat> getAllChat() throws Exception;
 
     public Chat addUserToChat(Long chatid, Long userid) throws Exception;
     public Chat removeUserFromChat(Long chatid, Long userid) throws Exception;
