@@ -65,6 +65,39 @@ public class ChatController {
     }
 
 
+    @DeleteMapping("/delete/{chatid}")
+
+    public ResponseEntity<UserReponse> deleteChat(@PathVariable Long chatid, @RequestHeader("Authorization") String token) throws Exception {
+        User user = userService.finduserbyemail(token);
+        if(
+                chatService.deleteChat(chatid, user.getId())){
+            return ResponseEntity.ok(new UserReponse("chat deleted", true, null));
+        }else{
+            return ResponseEntity.ok(new UserReponse("chat not deleted", false, null));
+        }
+
+    }
+
+
+    @PostMapping("/adduser/{chatid}/{addeduserid}")
+
+    public ResponseEntity<UserReponse> addUserToChat(@PathVariable Long chatid,@PathVariable Long addeduserid, @RequestHeader("Authorization") String token) throws Exception {
+        System.out.println("chatid "+ chatid);
+        System.out.println("addeduserid "+ addeduserid);
+        User user = userService.finduserbyemail(token);
+        Chat chat = chatService.addUserToChat(chatid, user.getId(), addeduserid);
+        if(chat != null){
+            return ResponseEntity.ok(new UserReponse("user added to chat", true, chat));
+        }else{
+            return ResponseEntity.ok(new UserReponse("user not added to chat", false, null));
+        }
+    }
+
+
+
+
+
+
 
 
 }

@@ -4,7 +4,6 @@ import com.basic.niroj.backend_social_media.Exception.ResourceNotFoundException;
 import com.basic.niroj.backend_social_media.Model.Chat;
 import com.basic.niroj.backend_social_media.Model.User;
 import com.basic.niroj.backend_social_media.Repository.ChatRepository;
-import com.basic.niroj.backend_social_media.Repository.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,12 +47,27 @@ public class ChatServiceImplementation implements  ChatService{
     }
 
     @Override
-    public Boolean deleteChat(Long chatid) throws Exception {
+    public Boolean deleteChat(Long chatid,Long userid) throws Exception {
 
 
         Chat chat = chatRepository.findById(chatid).orElseThrow(()-> new ResourceNotFoundException("Chat","id",chatid));
-        chatRepository.delete(chat);
-        return true;
+        User user = userservice.finduserbyid(userid);
+       try{
+
+              if(chat.getUsers().contains(user)){
+                chat.getUsers().remove(user);
+                chatRepository.save(chat);
+                return true;
+              }
+              else{
+                  return false;
+              }
+
+
+       }
+       catch (Exception e){
+           return false;
+       }
     }
 
     @Override
@@ -66,20 +80,26 @@ public class ChatServiceImplementation implements  ChatService{
 
 
     @Override
-    public Chat addUserToChat(Long chatid, Long userid) throws Exception {
+    public Chat addUserToChat(Long chatid, Long userid, Long addeduserid) throws Exception {
 
         Chat chat = chatRepository.findById(chatid).orElseThrow(()-> new ResourceNotFoundException("Chat","id",chatid));
         if(
                 chat.getUsers().contains(userservice.finduserbyid(userid))
         ) {
-            return chat;
-        }
-
-            else
-            {
-                chat.getUsers().add(userservice.finduserbyid(userid));
+            if(chat.getUsers().contains(userservice.finduserbyid(addeduserid))){
+                return chat;
+            }
+            else{
+                chat.getUsers().add(userservice.finduserbyid(addeduserid));
                 return chatRepository.save(chat);
             }
+        }
+        else{
+           return chat;
+        }
+
+
+
     }
 
     @Override
