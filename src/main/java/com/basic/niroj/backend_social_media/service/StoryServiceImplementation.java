@@ -159,6 +159,8 @@ public class StoryServiceImplementation implements  StoryService{
         {
             User user = userservice.finduserbyid(userid);
             Story story = storyRepository.findById(storyid).orElseThrow(()->new ResourceNotFoundException("Story not found","id",storyid));
+            System.out.println(story.getUser().getId());
+            System.out.println(userid);
             if(story.getUser().getId()==userid)
             {
                 return story.getSeenby();
