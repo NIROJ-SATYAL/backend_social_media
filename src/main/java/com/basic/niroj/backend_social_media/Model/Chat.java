@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class Chat {
     private String chat_image;
     @ManyToMany
     private List<User> users = new ArrayList<>();
+
+
+    private LocalDateTime timestamp;
 
 
 }

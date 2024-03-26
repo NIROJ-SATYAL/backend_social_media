@@ -29,10 +29,10 @@ public class User {
     private String email;
     private String gender;
 
-    @ElementCollection
+  @ElementCollection
     private List<Long> followers = new ArrayList<>();
 
-    @ElementCollection
+   @ElementCollection
     private List<Long> following = new ArrayList<>();
 
 

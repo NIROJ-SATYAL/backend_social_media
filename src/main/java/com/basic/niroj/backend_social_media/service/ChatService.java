@@ -8,7 +8,7 @@ import java.util.List;
 public interface ChatService {
 
 
-    public Chat createChat(Chat chat) throws Exception;
+    public Chat createChat(Long userid,Long requserid) throws Exception;
 
     public Chat getChatById(Long chatid) throws Exception;
 
@@ -21,10 +21,9 @@ public interface ChatService {
     public Chat addUserToChat(Long chatid, Long userid) throws Exception;
     public Chat removeUserFromChat(Long chatid, Long userid) throws Exception;
 
-    public List<User> getChatUsers(Long chatid) throws Exception;
 
-    public Chat addMessageToChat(Long chatid, Long messageid) throws Exception;
-    public Chat removeMessageFromChat(Long chatid, Long messageid) throws Exception;
+
+
 
 
 }
