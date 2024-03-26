@@ -19,6 +19,7 @@ target/
 *.iws
 *.iml
 *.ipr
+env.properties
 
 ### NetBeans ###
 /nbproject/private/
@@ -32,4 +33,4 @@ build/
 
 ### VS Code ###
 .vscode/
-./env.properties
+
