@@ -35,4 +35,13 @@ public class MessageController {
         }
 
     }
+
+
+    @GetMapping("/get/{chatid}")
+
+    public ResponseEntity<UserReponse> getMessages(@PathVariable Long chatid) throws Exception {
+
+        return ResponseEntity.ok(new UserReponse("messages found", true, messageService.getMessagesByChat(chatid)));
+
+    }
 }
