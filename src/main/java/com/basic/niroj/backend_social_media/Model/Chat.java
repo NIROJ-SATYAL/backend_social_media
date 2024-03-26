@@ -27,6 +27,10 @@ public class Chat {
     private List<User> users = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Message> messages = new ArrayList<>();
+
+
     private LocalDateTime timestamp;
 
 
