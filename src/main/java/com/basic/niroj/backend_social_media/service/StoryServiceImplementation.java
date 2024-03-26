@@ -153,12 +153,20 @@ public class StoryServiceImplementation implements  StoryService{
     }
 
     @Override
-    public List<User> getStoryViewers(Long storyid) throws Exception {
+    public List<User> getStoryViewers(Long storyid,Long userid) throws Exception {
 
         try
         {
-            Story story = storyRepository.findById(storyid).get();
-            return story.getSeenby();
+            User user = userservice.finduserbyid(userid);
+            Story story = storyRepository.findById(storyid).orElseThrow(()->new ResourceNotFoundException("Story not found","id",storyid));
+            if(story.getUser().getId()==userid)
+            {
+                return story.getSeenby();
+            }
+            else {
+                throw new ResourceNotFoundException("Invalid Access","id",userid);
+            }
+
         }
         catch (Exception e)
         {
@@ -167,12 +175,20 @@ public class StoryServiceImplementation implements  StoryService{
     }
 
     @Override
-    public List<User> getStoryLikers(Long storyid) throws Exception {
+    public List<User> getStoryLikers(Long userid,Long storyid) throws Exception {
 
         try
         {
-            Story story = storyRepository.findById(storyid).get();
-            return story.getLikedby();
+            User user = userservice.finduserbyid(userid);
+            Story story = storyRepository.findById(storyid).orElseThrow(()->new ResourceNotFoundException("Story not found","id",storyid));
+            if(story.getUser().getId()==userid)
+            {
+                return story.getLikedby();
+            }
+            else {
+                throw new ResourceNotFoundException("Invalid Access","id",userid);
+            }
+
         }
         catch (Exception e)
         {

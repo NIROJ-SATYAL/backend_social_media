@@ -21,6 +21,6 @@ public interface StoryService {
     public Story likeStory(Long storyid, Long userid) throws Exception;
     public Story viewStory(Long storyid, Long userid) throws Exception;
 
-    public List<User> getStoryViewers(Long storyid) throws Exception;
-    public List<User> getStoryLikers(Long storyid) throws Exception;
+    public List<User> getStoryViewers(Long storyid,Long userid) throws Exception;
+    public List<User> getStoryLikers(Long storyid,Long userid) throws Exception;
 }
