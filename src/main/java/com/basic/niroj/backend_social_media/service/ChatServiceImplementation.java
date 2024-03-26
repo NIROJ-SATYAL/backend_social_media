@@ -49,7 +49,11 @@ public class ChatServiceImplementation implements  ChatService{
 
     @Override
     public Boolean deleteChat(Long chatid) throws Exception {
-        return null;
+
+
+        Chat chat = chatRepository.findById(chatid).orElseThrow(()-> new ResourceNotFoundException("Chat","id",chatid));
+        chatRepository.delete(chat);
+        return true;
     }
 
     @Override
@@ -65,8 +69,17 @@ public class ChatServiceImplementation implements  ChatService{
     public Chat addUserToChat(Long chatid, Long userid) throws Exception {
 
         Chat chat = chatRepository.findById(chatid).orElseThrow(()-> new ResourceNotFoundException("Chat","id",chatid));
-        chat.getUsers().add(userservice.finduserbyid(userid));
-        return chatRepository.save(chat);
+        if(
+                chat.getUsers().contains(userservice.finduserbyid(userid))
+        ) {
+            return chat;
+        }
+
+            else
+            {
+                chat.getUsers().add(userservice.finduserbyid(userid));
+                return chatRepository.save(chat);
+            }
     }
 
     @Override
