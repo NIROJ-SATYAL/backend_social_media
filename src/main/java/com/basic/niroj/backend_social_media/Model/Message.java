@@ -22,6 +22,8 @@ public class Message {
 
     private String message;
 
+    private String image;
+
     @ManyToOne
     private User sender;
 
